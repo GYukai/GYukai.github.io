@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blogs - Gu Yukai's Blog</title>
+  <meta name="description" content="Complete blog list, including personal commentary.">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://gyukai.github.io/en/blog/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="alternate" type="application/rss+xml" title="Research feed" href="/feed.xml">
+  <link rel="alternate" hreflang="zh" href="https://gyukai.github.io/blog/">
+  <link rel="alternate" hreflang="en" href="https://gyukai.github.io/en/blog/">
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var explicit = params.get("lang");
+      if (explicit === "zh" || explicit === "en") return;
+
+      var first = "";
+      if (navigator.languages && navigator.languages.length) {
+        first = navigator.languages[0] || "";
+      } else {
+        first = navigator.language || "";
+      }
+
+      var preferred = first.toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+      var current = "en";
+      var targets = {"zh":"/blog/","en":"/en/blog/"};
+      var targetPath = targets[preferred];
+      if (!targetPath || preferred === current || targetPath === window.location.pathname) return;
+
+      var next = new URL(targetPath, window.location.origin);
+      next.search = window.location.search;
+      next.hash = window.location.hash;
+      window.location.replace(next.pathname + next.search + next.hash);
+    }());
+  </script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+      },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/">
+    <img src="/assets/gy-mark.svg" width="52" height="52" alt="">
+    <span><strong>Gu Yukai</strong><small>PhD Student @ Renmin University of China</small></span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="/blog/">Blogs</a>
+    <a href="/feed.xml">RSS</a>
+    <a class="icon-link" href="mailto:yukai.gu@outlook.com" aria-label="yukai.gu@outlook.com"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </svg></a>
+    <a class="scholar-link" href="https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&amp;hl=en&amp;oi=ao" aria-label="Google Scholar: Gu Yukai"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M3 9.5 12 5l9 4.5-9 4.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M7 12.2v4.2c2.8 1.9 7.2 1.9 10 0v-4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </svg><span>Gu Yukai</span></a>
+    <span class="nav-divider" aria-hidden="true">|</span>
+    <a class="language-version" href="/blog/?lang=zh" hreflang="zh">中文版</a>
+  </nav>
+</header>
+<main>
+  <h1>Blogs</h1>
+  <p class="lead">The complete index, including research posts, reading notes, article comments, and more personal judgments. It is kept out of the research RSS and sitemap.</p>
+  <ol class="entry-list">
+<li>
+  <time datetime="2026-04-24">Apr 24, 2026</time> · <span class="muted">academic</span><br>
+  <a class="entry-title" href="/posts/bare-html-research-notes-en/">Why this site stays close to plain HTML</a>
+  <div class="language-links">Also in <a hreflang="zh" href="/posts/bare-html-research-notes-zh/?lang=zh">中文</a></div>
+  <p>A research notebook does not have to become an application before it becomes useful.</p>
+</li>
+<li>
+  <time datetime="2026-04-24">2026-04-24</time> · <span class="muted">personal</span><br>
+  <a class="entry-title" href="/blog/reading-comment-boundary-zh/">读书札记的公开边界</a>
+  
+  <p>有些评论适合公开保存，但不适合作为主页名片。</p>
+</li>
+</ol>
+</main>
+<footer class="site-footer">
+  <p>Academic writing is surfaced first. The complete list is kept at <a href="/blog/">/blog/</a>.</p>
+</footer>
+</body>
+</html>

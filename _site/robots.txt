@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /blog/
+Disallow: /en/blog/
+Allow: /
+Sitemap: https://gyukai.github.io/sitemap.xml

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>顾俞凯 - 中文主页</title>
+  <meta name="description" content="顾俞凯的个人主页和研究博客。">
+  
+  <link rel="canonical" href="https://gyukai.github.io/zh/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="alternate" type="application/rss+xml" title="Research feed" href="/feed.xml">
+  <link rel="alternate" hreflang="en" href="https://gyukai.github.io/">
+  <link rel="alternate" hreflang="zh" href="https://gyukai.github.io/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://gyukai.github.io/">
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var explicit = params.get("lang");
+      if (explicit === "zh" || explicit === "en") return;
+
+      var first = "";
+      if (navigator.languages && navigator.languages.length) {
+        first = navigator.languages[0] || "";
+      } else {
+        first = navigator.language || "";
+      }
+
+      var preferred = first.toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+      var current = "zh";
+      var targets = {"en":"/","zh":"/zh/"};
+      var targetPath = targets[preferred];
+      if (!targetPath || preferred === current || targetPath === window.location.pathname) return;
+
+      var next = new URL(targetPath, window.location.origin);
+      next.search = window.location.search;
+      next.hash = window.location.hash;
+      window.location.replace(next.pathname + next.search + next.hash);
+    }());
+  </script>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+      },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/zh/">
+    <img src="/assets/gy-mark.svg" width="52" height="52" alt="">
+    <span><strong>Gu Yukai</strong><small>PhD Student @ Renmin University of China</small></span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="/blog/">博客</a>
+    <a href="/feed.xml">RSS</a>
+    <a class="icon-link" href="mailto:yukai.gu@outlook.com" aria-label="yukai.gu@outlook.com"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </svg></a>
+    <a class="scholar-link" href="https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&amp;hl=en&amp;oi=ao" aria-label="Google Scholar: Gu Yukai"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M3 9.5 12 5l9 4.5-9 4.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M7 12.2v4.2c2.8 1.9 7.2 1.9 10 0v-4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </svg><span>Gu Yukai</span></a>
+    <span class="nav-divider" aria-hidden="true">|</span>
+    <a class="language-version" href="/?lang=en" hreflang="en">English Version</a>
+  </nav>
+</header>
+<main>
+  <section class="home-hero" aria-label="中文介绍">
+    <div class="home-copy">
+      <p class="eyebrow">PhD Student @ Renmin University of China</p>
+      <h1>顾俞凯 / Gu Yukai</h1>
+      <div class="lead">
+        <p>我是中国人民大学高瓴人工智能学院博士生，近期关注多模态模型、评测、推理阶段优化和研究工具。</p>
+<p>此前在北京交通大学学习计算机科学，参与过多模态幻觉评测、深度视频压缩和开源工具相关工作。</p>
+      </div>
+    </div>
+    <figure class="profile-photo">
+      <img src="https://scholar.googleusercontent.com/citations?view_op=medium_photo&amp;user=Ml8K5b8AAAAJ&amp;citpid=4" width="192" height="192" alt="Gu Yukai">
+      <figcaption>Gu Yukai</figcaption>
+    </figure>
+  </section>
+
+  <h2>经历</h2>
+  <table>
+    <thead>
+      <tr><th>时间</th><th>方向</th><th>说明</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2024 - 至今</td>
+        <td><strong>多模态模型推理阶段的性能优化方法研究</strong><br><span class="muted">中国人民大学 AIBOX 实验室</span></td>
+        <td>围绕多模态任务中的模型推理能力和测试时行为优化开展研究。 <ul class="tag-list"><li>多模态模型</li><li>推理</li><li>优化</li></ul></td>
+      </tr>
+<tr>
+        <td>2023 - 2024</td>
+        <td><strong>人机共友好的深度视频压缩</strong><br><span class="muted">北京交通大学</span></td>
+        <td>参与深度模型视频压缩和感知重建相关研究。相关预印本：arXiv:2405.14336。 <ul class="tag-list"><li>视频压缩</li><li>深度学习</li></ul></td>
+      </tr>
+<tr>
+        <td>2023</td>
+        <td><strong>多模态大模型的幻觉测定</strong><br><span class="muted">ADaM 实验室</span></td>
+        <td>参与 LLM-free 多模态幻觉评测的数据和代码构建。相关预印本：arXiv:2311.07397。 <ul class="tag-list"><li>评测</li><li>多模态大模型</li></ul></td>
+      </tr>
+<tr>
+        <td>开源</td>
+        <td><strong>Waypoint</strong><br><span class="muted">GitHub</span></td>
+        <td>为开源软件插件项目贡献功能代码。 <ul class="tag-list"><li>开源</li></ul></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>博客</h2>
+  <ol class="entry-list">
+<li>
+  <time datetime="2026-04-24">2026-04-24</time><br>
+  <a class="entry-title" href="/posts/bare-html-research-notes-zh/">为什么这个站点近似裸 HTML</a>
+  <div class="language-links">另有 <a hreflang="en" href="/posts/bare-html-research-notes-en/?lang=en">English</a></div>
+  <p>一个研究笔记站点不需要先成为一个应用。它首先要让论证、公式、代码和引用稳定地出现。</p>
+</li>
+</ol>
+  <p><a href="/blog/">全部博客</a></p>
+
+  <h2>小规则</h2>
+  <ol>
+    <li>保持页面简洁、可读、可长期访问。</li>
+    <li>用博客记录研究问题、论文阅读和实验判断。</li>
+  </ol>
+</main>
+<footer class="site-footer">
+  <p>学术写作会优先出现在主页。完整列表保存在 <a href="/blog/">/blog/</a>。</p>
+</footer>
+</body>
+</html>

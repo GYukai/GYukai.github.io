@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Gu Yukai&apos;s Blog - Research Feed</title>
+    <link>https://gyukai.github.io</link>
+    <description>Gu Yukai&apos;s personal blog and homepage.</description>
+    <item>
+      <title>为什么这个站点近似裸 HTML</title>
+      <link>https://gyukai.github.io/posts/bare-html-research-notes-zh/</link>
+      <guid>https://gyukai.github.io/posts/bare-html-research-notes-zh/</guid>
+      <pubDate>Fri, 24 Apr 2026 00:00:00 GMT</pubDate>
+      <description>一个研究笔记站点不需要先成为一个应用。它首先要让论证、公式、代码和引用稳定地出现。</description>
+    </item>
+  </channel>
+</rss>

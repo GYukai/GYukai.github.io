@@ -1,0 +1,30 @@
+[
+  {
+    "title": "为什么这个站点近似裸 HTML",
+    "date": "2026-04-24",
+    "lang": "zh",
+    "slug": "bare-html-research-notes-zh",
+    "visibility": "academic",
+    "translationKey": "bare-html-research-notes",
+    "tags": [
+      "writing",
+      "web",
+      "research-notes"
+    ],
+    "url": "/posts/bare-html-research-notes-zh/"
+  },
+  {
+    "title": "Why this site stays close to plain HTML",
+    "date": "2026-04-24",
+    "lang": "en",
+    "slug": "bare-html-research-notes-en",
+    "visibility": "academic",
+    "translationKey": "bare-html-research-notes",
+    "tags": [
+      "writing",
+      "web",
+      "research-notes"
+    ],
+    "url": "/posts/bare-html-research-notes-en/"
+  }
+]

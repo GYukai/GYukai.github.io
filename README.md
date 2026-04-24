@@ -1,19 +1,9 @@
-# Yukai Gu / 顾雨凯
+# 顾俞凯的 Blog
 
-一个接近裸 HTML 的 GitHub Pages 个人主页和学术博客骨架。
+vibe coded 个人主页和学术博客骨架。
 
-## 设计
 
-- `content/profile.json` 管主页介绍、基本经历和外链；英文主页在 `/`，中文主页在 `/zh/`。
-- 导航里的 `Blogs` 指向 `/blog/` 完整博客列表；`/posts/` 仍保留为学术文章归档和 RSS/sitemap 来源。
-- 有中英文对应页时，页面会按浏览器首选语言自动跳转；语言切换只显示另一种语言的链接。
-- `content/posts/*.md` 是文章源文件。
-- `visibility: academic` 会进入主页、`/posts/`、RSS 和 sitemap。
-- `visibility: personal` 只进入 `/blog/` 完整索引，并带 `noindex`；这不是强权限，只是静态站可提供的发布分层。
-- 公式保留 LaTeX 写法，由 MathJax 在浏览器端渲染。
-- 构建阶段没有前端框架，也没有运行时应用状态。
-
-## 写文章
+## 新增blog
 
 新增一篇 Markdown：
 
@@ -48,8 +38,8 @@ $$
 
 需要在 GitHub 仓库里设置：
 
-- Secret: `OPENAI_API_KEY`
-- Optional variable: `LLM_MODEL`，默认是 `gpt-5-mini`
+- Secret: `OPENROUTER_API_KEY`
+- Optional variable: `LLM_MODEL`，默认是 `gpt-5.4-mini`
 
 ## 本地使用
 
