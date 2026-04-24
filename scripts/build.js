@@ -131,7 +131,6 @@ function homeContent(lang) {
 function homeLabels(lang) {
   if (lang === "zh") {
     return {
-      home: "主页",
       introduction: "中文介绍",
       research: "经历",
       period: "时间",
@@ -144,7 +143,6 @@ function homeLabels(lang) {
   }
 
   return {
-    home: "Home",
     introduction: "English introduction",
     research: "Experience",
     period: "Period",
@@ -172,13 +170,6 @@ function isPlaceholder(text) {
   return value.includes("待填写") || /^\[[^\]]+\]$/.test(value);
 }
 
-function renderHomeLanguageLinks(lang) {
-  if (lang === "zh") {
-    return renderLanguageSwitch(lang, "/");
-  }
-  return renderLanguageSwitch(lang, "/zh/");
-}
-
 function homeAlternates() {
   return [
     { lang: "en", href: absoluteUrl("/") },
@@ -194,21 +185,32 @@ function renderHome(groups, lang) {
   const research = home.research || [];
   const latest = groups.slice(0, 6);
   const homePath = lang === "zh" ? "/zh/" : "/";
+  const photoUrl =
+    person.photo ||
+    "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=Ml8K5b8AAAAJ&citpid=4";
   const description =
     home.description && !isPlaceholder(home.description)
       ? home.description
       : profile.site?.description || "";
   const heading =
     lang === "zh"
-      ? `${person.nameZh || person.name || "Yukai Gu"}${person.name ? ` / ${person.name}` : ""}`
-      : person.name || "Yukai Gu";
+      ? `${person.nameZh || person.name || "Gu Yukai"}${person.name ? ` / ${person.name}` : ""}`
+      : person.name || "Gu Yukai";
 
   const body = `${siteHeader(lang, lang === "zh" ? "/" : "/zh/")}
 <main>
-  <h1>${escapeHtml(heading)}</h1>
-  <p class="language-links">${renderHomeLanguageLinks(lang)}</p>
-  <section class="lead" aria-label="${escapeAttr(labels.introduction)}">
-    ${renderParagraphs(home.intro)}
+  <section class="home-hero" aria-label="${escapeAttr(labels.introduction)}">
+    <div class="home-copy">
+      <p class="eyebrow">${escapeHtml(person.location || "")}</p>
+      <h1>${escapeHtml(heading)}</h1>
+      <div class="lead">
+        ${renderParagraphs(home.intro)}
+      </div>
+    </div>
+    <figure class="profile-photo">
+      <img src="${escapeAttr(photoUrl)}" width="192" height="192" alt="${escapeAttr(person.name || "Gu Yukai")}">
+      <figcaption>${escapeHtml(person.name || "Gu Yukai")}</figcaption>
+    </figure>
   </section>
 
   <h2>${escapeHtml(labels.research)}</h2>
@@ -241,7 +243,7 @@ function renderHome(groups, lang) {
 ${siteFooter(lang)}`;
 
   return layout({
-    title: lang === "zh" ? `${person.nameZh || person.name || "Yukai Gu"} - 中文主页` : profile.site?.title || "Yukai Gu",
+    title: lang === "zh" ? `${person.nameZh || person.name || "Gu Yukai"} - 中文主页` : profile.site?.title || "Gu Yukai",
     description,
     body,
     pathName: homePath,
@@ -270,7 +272,7 @@ ${siteFooter("zh")}`
 ${siteFooter("en")}`;
 
   return layout({
-    title: `${lang === "zh" ? "研究博客" : "Research Blogs"} - ${profile.site?.title || "Yukai Gu"}`,
+    title: `${lang === "zh" ? "研究博客" : "Research Blogs"} - ${profile.site?.title || "Gu Yukai"}`,
     description: "Academic notes and research writing.",
     body,
     pathName: lang === "zh" ? "/posts/" : "/en/posts/",
@@ -301,7 +303,7 @@ ${siteFooter("zh")}`
 ${siteFooter("en")}`;
 
   return layout({
-    title: `Blogs - ${profile.site?.title || "Yukai Gu"}`,
+    title: `Blogs - ${profile.site?.title || "Gu Yukai"}`,
     description: "Complete blog list, including personal commentary.",
     body,
     pathName: lang === "zh" ? "/blog/" : "/en/blog/",
@@ -350,7 +352,7 @@ function renderPost(post, group) {
 ${siteFooter(post.lang)}`;
 
   return layout({
-    title: `${post.title} - ${profile.site?.title || "Yukai Gu"}`,
+    title: `${post.title} - ${profile.site?.title || "Gu Yukai"}`,
     description: post.summary || excerptFromMarkdown(post.body),
     body,
     pathName: postPath(post),
@@ -419,28 +421,44 @@ function renderLanguageSwitch(currentLang, href) {
   return `<a href="${escapeAttr(languageSwitchHref(href, targetLang))}" hreflang="${escapeAttr(targetLang)}">${escapeHtml(languageName(targetLang))}</a>`;
 }
 
-function renderHeaderLinks() {
-  const links = Array.isArray(profile.links) ? profile.links : [];
-  return links
-    .map((link) => `<a href="${escapeAttr(link.url)}">${escapeHtml(link.label)}</a>`)
-    .join("\n    ");
+function renderMailIcon() {
+  return `<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M4 6h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </svg>`;
+}
+
+function renderScholarIcon() {
+  return `<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+      <path d="M3 9.5 12 5l9 4.5-9 4.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M7 12.2v4.2c2.8 1.9 7.2 1.9 10 0v-4.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </svg>`;
+}
+
+function renderHeaderLanguageLink(lang, href) {
+  const targetLang = otherLang(lang);
+  const label = lang === "zh" ? "English Version" : "中文版";
+  return `<a class="language-version" href="${escapeAttr(languageSwitchHref(href, targetLang))}" hreflang="${escapeAttr(targetLang)}">${escapeHtml(label)}</a>`;
 }
 
 function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
   const person = profile.person || {};
   const labels = homeLabels(lang);
   const homeHref = lang === "zh" ? "/zh/" : "/";
+  const email = person.email || "yukai.gu@outlook.com";
+  const scholar = person.scholar || "https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&hl=en&oi=ao";
   return `<header class="site-header">
   <a class="brand" href="${homeHref}">
     <img src="/assets/gy-mark.svg" width="52" height="52" alt="">
-    <span><strong>${escapeHtml(person.name || "Yukai Gu")}</strong><small>${escapeHtml(person.location || "")}</small></span>
+    <span><strong>${escapeHtml(person.name || "Gu Yukai")}</strong><small>${escapeHtml(person.location || "")}</small></span>
   </a>
   <nav class="site-nav" aria-label="Primary">
-    <a href="${homeHref}">${escapeHtml(labels.home)}</a>
     <a href="/blog/">${escapeHtml(labels.blogs)}</a>
     <a href="/feed.xml">RSS</a>
-    ${renderHeaderLinks()}
-    ${renderLanguageSwitch(lang, switchHref)}
+    <a class="icon-link" href="mailto:${escapeAttr(email)}" aria-label="${escapeAttr(email)}">${renderMailIcon()}</a>
+    <a class="scholar-link" href="${escapeAttr(scholar)}" aria-label="Google Scholar: Gu Yukai">${renderScholarIcon()}<span>Gu Yukai</span></a>
+    <span class="nav-divider" aria-hidden="true">|</span>
+    ${renderHeaderLanguageLink(lang, switchHref)}
   </nav>
 </header>`;
 }
@@ -544,7 +562,7 @@ function renderFeed(groups) {
   return `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>${escapeXml(profile.site?.title || "Yukai Gu")} - Research Feed</title>
+    <title>${escapeXml(profile.site?.title || "Gu Yukai")} - Research Feed</title>
     <link>${escapeXml(siteUrl)}</link>
     <description>${escapeXml(profile.site?.description || "")}</description>
     ${entries

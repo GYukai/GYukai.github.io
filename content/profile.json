@@ -1,16 +1,18 @@
 {
   "site": {
-    "title": "Yukai Gu",
+    "title": "Gu Yukai's Blog",
     "url": "https://gyukai.github.io",
-    "description": "A small academic homepage and bilingual research notebook.",
+    "description": "Gu Yukai's personal blog and homepage.",
     "defaultLang": "zh"
   },
   "person": {
-    "name": "Yukai Gu",
+    "name": "Gu Yukai",
     "nameZh": "顾俞凯",
     "github": "GYukai",
     "email": "yukai.gu@outlook.com",
-    "location": "PhD Student @ Renmin University of China"
+    "location": "PhD Student @ Renmin University of China",
+    "photo": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=Ml8K5b8AAAAJ&citpid=4",
+    "scholar": "https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&hl=en&oi=ao"
   },
   "home": {
     "en": {
@@ -98,18 +100,5 @@
       ]
     }
   },
-  "links": [
-    {
-      "label": "Email",
-      "url": "mailto:yukai.gu@outlook.com"
-    },
-    {
-      "label": "GitHub",
-      "url": "https://github.com/GYukai"
-    },
-    {
-      "label": "Google Scholar",
-      "url": "https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&hl=en&oi=ao"
-    }
-  ]
+  "links": []
 }
