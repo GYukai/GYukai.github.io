@@ -109,22 +109,10 @@ function publicPostData(post) {
 function homeContent(lang) {
   const configured = profile.home?.[lang] || {};
   const fallbackIntro = profile.intro?.[lang] || [];
-  const fallbackResearch = lang === "en" ? profile.research || [] : [];
-  const fallbackRules =
-    lang === "zh"
-      ? ["[待填写：这里可以写中文主页的写作原则，或者从 profile.json 删除这一节。]"]
-      : [
-          "Write pages that survive without a client-side application.",
-          "Keep equations close to the prose, for example $V^\\pi(s)=\\mathbb{E}_\\pi[G_t\\mid S_t=s]$.",
-          "Separate research posts from personal commentary by metadata, not by memory.",
-          "Prefer durable links, dates, and source Markdown over clever presentation."
-        ];
 
   return {
     description: configured.description || "",
-    intro: configured.intro || fallbackIntro,
-    research: configured.research || fallbackResearch,
-    rules: configured.rules || fallbackRules
+    intro: configured.intro || fallbackIntro
   };
 }
 
@@ -132,25 +120,13 @@ function homeLabels(lang) {
   if (lang === "zh") {
     return {
       introduction: "中文介绍",
-      research: "经历",
-      period: "时间",
-      thread: "方向",
-      notes: "说明",
-      blogs: "博客",
-      allBlogs: "全部博客",
-      smallRules: "小规则"
+      blogs: "博客"
     };
   }
 
   return {
     introduction: "English introduction",
-    research: "Experience",
-    period: "Period",
-    thread: "Thread",
-    notes: "Notes",
-    blogs: "Blogs",
-    allBlogs: "All blogs",
-    smallRules: "Small Rules"
+    blogs: "Blogs"
   };
 }
 
@@ -182,7 +158,6 @@ function renderHome(groups, lang) {
   const person = profile.person || {};
   const home = homeContent(lang);
   const labels = homeLabels(lang);
-  const research = home.research || [];
   const latest = groups.slice(0, 6);
   const homePath = lang === "zh" ? "/zh/" : "/";
   const photoUrl =
@@ -213,32 +188,8 @@ function renderHome(groups, lang) {
     </figure>
   </section>
 
-  <h2>${escapeHtml(labels.research)}</h2>
-  <table>
-    <thead>
-      <tr><th>${escapeHtml(labels.period)}</th><th>${escapeHtml(labels.thread)}</th><th>${escapeHtml(labels.notes)}</th></tr>
-    </thead>
-    <tbody>
-      ${research
-        .map(
-          (item) => `<tr>
-        <td>${escapeHtml(item.period || "")}</td>
-        <td><strong>${escapeHtml(item.title || "")}</strong><br><span class="muted">${escapeHtml(item.org || "")}</span></td>
-        <td>${escapeHtml(item.description || "")}${renderTags(item.tags || [])}</td>
-      </tr>`
-        )
-        .join("\n")}
-    </tbody>
-  </table>
-
   <h2>${escapeHtml(labels.blogs)}</h2>
   ${renderEntryList(latest, { showVisibility: false, lang })}
-  <p><a href="/blog/">${escapeHtml(labels.allBlogs)}</a></p>
-
-  <h2>${escapeHtml(labels.smallRules)}</h2>
-  <ol>
-    ${home.rules.map((rule) => `<li>${renderInline(rule)}</li>`).join("\n    ")}
-  </ol>
 </main>
 ${siteFooter(lang)}`;
 
@@ -464,12 +415,8 @@ function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
 }
 
 function siteFooter(lang = "en") {
-  const text =
-    lang === "zh"
-      ? '学术写作会优先出现在主页。完整列表保存在 <a href="/blog/">/blog/</a>。'
-      : 'Academic writing is surfaced first. The complete list is kept at <a href="/blog/">/blog/</a>.';
   return `<footer class="site-footer">
-  <p>${text}</p>
+  <p>&copy; ${new Date().getUTCFullYear()} Gu Yukai</p>
 </footer>`;
 }
 
