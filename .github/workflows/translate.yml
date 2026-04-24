@@ -2,7 +2,7 @@ name: Generate missing translations
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "master"]
     paths:
       - "content/posts/**/*.md"
       - "scripts/translate.js"
