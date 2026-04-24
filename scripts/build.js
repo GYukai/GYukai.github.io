@@ -181,7 +181,6 @@ function renderHome(groups, lang) {
 <main>
   <section class="home-hero" aria-label="${escapeAttr(labels.introduction)}">
     <div class="home-copy">
-      <p class="eyebrow">${escapeHtml(person.location || "")}</p>
       <h1>${escapeHtml(heading)}</h1>
       <div class="lead">
         ${renderParagraphs(home.intro)}
