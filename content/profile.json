@@ -1,0 +1,47 @@
+{
+  "site": {
+    "title": "Yukai Gu",
+    "url": "https://gyukai.github.io",
+    "description": "A small academic homepage and bilingual research notebook.",
+    "defaultLang": "zh"
+  },
+  "person": {
+    "name": "Yukai Gu",
+    "nameZh": "顾雨凯",
+    "github": "GYukai",
+    "email": "",
+    "location": "Shanghai / Remote"
+  },
+  "intro": {
+    "zh": [
+      "我关心机器学习系统如何从经验中形成可复用的知识，也关心研究文章在读者脑中真正发生作用的方式。",
+      "这个站点会保持接近裸 HTML：可读、可复制、可被搜索引擎和浏览器长期理解。公式、代码、引用和双语版本是第一等内容，而不是被框架包起来的装饰。"
+    ],
+    "en": [
+      "I am interested in how learning systems turn experience into reusable knowledge, and in how research writing can actually change the reader's working model.",
+      "This site stays close to plain HTML: readable, copyable, and durable. Equations, code, references, and bilingual versions are first-class material rather than decoration around a framework."
+    ]
+  },
+  "research": [
+    {
+      "period": "Now",
+      "title": "Learning from experience",
+      "org": "Independent notes",
+      "description": "Notes around reinforcement learning, continual learning, evaluation, and the gap between elegant algorithms and systems that keep working.",
+      "tags": ["RL", "continual learning", "evaluation"]
+    },
+    {
+      "period": "Ongoing",
+      "title": "Research reading as infrastructure",
+      "org": "Personal workflow",
+      "description": "A lightweight pipeline for turning reading, criticism, experiments, and translations into public academic notes.",
+      "tags": ["writing", "translation", "tools"]
+    }
+  ],
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/GYukai"
+    }
+  ]
+}

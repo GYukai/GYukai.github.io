@@ -1,0 +1,15 @@
+{
+  "name": "gyukai-github-pages",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "serve": "node scripts/build.js && node scripts/serve.js",
+    "translate": "node scripts/translate.js",
+    "check": "node scripts/build.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
