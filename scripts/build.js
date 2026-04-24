@@ -33,9 +33,12 @@ const academicGroups = groupedPosts
   }))
   .filter((group) => group.posts.length > 0);
 
-await writeFile("index.html", renderHome(academicGroups));
-await writeFile("posts/index.html", renderAcademicIndex(academicGroups));
-await writeFile("blog/index.html", renderFullBlog(groupedPosts));
+await writeFile("index.html", renderHome(academicGroups, "en"));
+await writeFile("zh/index.html", renderHome(academicGroups, "zh"));
+await writeFile("posts/index.html", renderAcademicIndex(academicGroups, "zh"));
+await writeFile("en/posts/index.html", renderAcademicIndex(academicGroups, "en"));
+await writeFile("blog/index.html", renderFullBlog(groupedPosts, "zh"));
+await writeFile("en/blog/index.html", renderFullBlog(groupedPosts, "en"));
 
 for (const group of groupedPosts) {
   for (const post of group.posts) {
@@ -102,28 +105,118 @@ function publicPostData(post) {
   };
 }
 
-function renderHome(groups) {
+function homeContent(lang) {
+  const configured = profile.home?.[lang] || {};
+  const fallbackIntro = profile.intro?.[lang] || [];
+  const fallbackResearch = lang === "en" ? profile.research || [] : [];
+  const fallbackRules =
+    lang === "zh"
+      ? ["[待填写：这里可以写中文主页的写作原则，或者从 profile.json 删除这一节。]"]
+      : [
+          "Write pages that survive without a client-side application.",
+          "Keep equations close to the prose, for example $V^\\pi(s)=\\mathbb{E}_\\pi[G_t\\mid S_t=s]$.",
+          "Separate research posts from personal commentary by metadata, not by memory.",
+          "Prefer durable links, dates, and source Markdown over clever presentation."
+        ];
+
+  return {
+    description: configured.description || "",
+    intro: configured.intro || fallbackIntro,
+    research: configured.research || fallbackResearch,
+    rules: configured.rules || fallbackRules
+  };
+}
+
+function homeLabels(lang) {
+  if (lang === "zh") {
+    return {
+      home: "主页",
+      introduction: "中文介绍",
+      research: "经历",
+      period: "时间",
+      thread: "方向",
+      notes: "说明",
+      blogs: "博客",
+      allBlogs: "全部博客",
+      smallRules: "小规则",
+      links: "链接"
+    };
+  }
+
+  return {
+    home: "Home",
+    introduction: "English introduction",
+    research: "Experience",
+    period: "Period",
+    thread: "Thread",
+    notes: "Notes",
+    blogs: "Blogs",
+    allBlogs: "All blogs",
+    smallRules: "Small Rules",
+    links: "Links"
+  };
+}
+
+function renderParagraphs(paragraphs) {
+  const items = Array.isArray(paragraphs) ? paragraphs.filter(Boolean) : [];
+  if (!items.length) {
+    return '<p class="placeholder">[待填写]</p>';
+  }
+
+  return items
+    .map((text) => `<p${isPlaceholder(text) ? ' class="placeholder"' : ""}>${renderInline(text)}</p>`)
+    .join("\n");
+}
+
+function isPlaceholder(text) {
+  const value = String(text).trim();
+  return value.includes("待填写") || /^\[[^\]]+\]$/.test(value);
+}
+
+function renderHomeLanguageLinks(lang) {
+  if (lang === "zh") {
+    return renderLanguageSwitch(lang, "/");
+  }
+  return renderLanguageSwitch(lang, "/zh/");
+}
+
+function homeAlternates() {
+  return [
+    { lang: "en", href: absoluteUrl("/") },
+    { lang: "zh", href: absoluteUrl("/zh/") },
+    { lang: "x-default", href: absoluteUrl("/") }
+  ];
+}
+
+function renderHome(groups, lang) {
   const person = profile.person || {};
-  const research = profile.research || [];
+  const home = homeContent(lang);
+  const labels = homeLabels(lang);
+  const research = home.research || [];
   const links = profile.links || [];
   const latest = groups.slice(0, 6);
+  const homePath = lang === "zh" ? "/zh/" : "/";
+  const description =
+    home.description && !isPlaceholder(home.description)
+      ? home.description
+      : profile.site?.description || "";
+  const heading =
+    lang === "zh"
+      ? `${person.nameZh || person.name || "Yukai Gu"}${person.name ? ` / ${person.name}` : ""}`
+      : person.name || "Yukai Gu";
 
-  const body = `${siteHeader()}
+  const body = `${siteHeader(lang, lang === "zh" ? "/" : "/zh/")}
 <main>
-  <h1>${escapeHtml(person.name || "Yukai Gu")} <span class="muted">${escapeHtml(person.nameZh || "")}</span></h1>
-  <div class="two-lang lead">
-    <section aria-label="Chinese introduction">
-      ${(profile.intro?.zh || []).map((text) => `<p>${escapeHtml(text)}</p>`).join("\n")}
-    </section>
-    <section aria-label="English introduction">
-      ${(profile.intro?.en || []).map((text) => `<p>${escapeHtml(text)}</p>`).join("\n")}
-    </section>
-  </div>
+  <h1>${escapeHtml(heading)}</h1>
+  <p class="language-links">${renderHomeLanguageLinks(lang)}</p>
+  <section class="lead" aria-label="${escapeAttr(labels.introduction)}">
+    ${renderParagraphs(home.intro)}
+  </section>
 
-  <h2>Research</h2>
+  <h2>${escapeHtml(labels.research)}</h2>
   <table>
     <thead>
-      <tr><th>Period</th><th>Thread</th><th>Notes</th></tr>
+      <tr><th>${escapeHtml(labels.period)}</th><th>${escapeHtml(labels.thread)}</th><th>${escapeHtml(labels.notes)}</th></tr>
     </thead>
     <tbody>
       ${research
@@ -138,75 +231,106 @@ function renderHome(groups) {
     </tbody>
   </table>
 
-  <h2>Academic Notes</h2>
-  ${renderEntryList(latest, { showVisibility: false })}
-  <p><a href="/posts/">All academic notes</a></p>
+  <h2>${escapeHtml(labels.blogs)}</h2>
+  ${renderEntryList(latest, { showVisibility: false, lang })}
+  <p><a href="/blog/">${escapeHtml(labels.allBlogs)}</a></p>
 
-  <h2>Small Rules</h2>
+  <h2>${escapeHtml(labels.smallRules)}</h2>
   <ol>
-    <li>Write pages that survive without a client-side application.</li>
-    <li>Keep equations close to the prose, for example $V^\\pi(s)=\\mathbb{E}_\\pi[G_t\\mid S_t=s]$.</li>
-    <li>Separate academic notes from personal commentary by metadata, not by memory.</li>
-    <li>Prefer durable links, dates, and source Markdown over clever presentation.</li>
+    ${home.rules.map((rule) => `<li>${renderInline(rule)}</li>`).join("\n    ")}
   </ol>
 
-  <h2>Links</h2>
+  <h2>${escapeHtml(labels.links)}</h2>
   <ul>
     ${links.map((link) => `<li><a href="${escapeAttr(link.url)}">${escapeHtml(link.label)}</a></li>`).join("\n")}
   </ul>
 </main>
-${siteFooter()}`;
+${siteFooter(lang)}`;
 
   return layout({
-    title: profile.site?.title || "Yukai Gu",
-    description: profile.site?.description || "",
+    title: lang === "zh" ? `${person.nameZh || person.name || "Yukai Gu"} - 中文主页` : profile.site?.title || "Yukai Gu",
+    description,
     body,
-    pathName: "/",
-    lang: "zh"
+    pathName: homePath,
+    lang,
+    alternates: homeAlternates()
   });
 }
 
-function renderAcademicIndex(groups) {
-  const body = `${siteHeader()}
+function renderAcademicIndex(groups, lang) {
+  const labels = homeLabels(lang);
+  const body =
+    lang === "zh"
+      ? `${siteHeader("zh", "/en/posts/")}
 <main>
-  <h1>Academic Notes</h1>
+  <h1>研究博客</h1>
   <p class="lead">论文阅读、研究笔记、实验札记和可公开讨论的技术判断。</p>
-  ${renderEntryList(groups, { showVisibility: false })}
+  ${renderEntryList(groups, { showVisibility: false, lang: "zh" })}
 </main>
-${siteFooter()}`;
+${siteFooter("zh")}`
+      : `${siteHeader("en", "/posts/")}
+<main>
+  <h1>Research Blogs</h1>
+  <p class="lead">Research notes, paper reading, experiment notes, and public technical judgments.</p>
+  ${renderEntryList(groups, { showVisibility: false, lang: "en" })}
+</main>
+${siteFooter("en")}`;
 
   return layout({
-    title: `Academic Notes - ${profile.site?.title || "Yukai Gu"}`,
+    title: `${lang === "zh" ? "研究博客" : "Research Blogs"} - ${profile.site?.title || "Yukai Gu"}`,
     description: "Academic notes and research writing.",
     body,
-    pathName: "/posts/",
-    lang: "zh"
+    pathName: lang === "zh" ? "/posts/" : "/en/posts/",
+    lang,
+    alternates: [
+      { lang: "zh", href: absoluteUrl("/posts/") },
+      { lang: "en", href: absoluteUrl("/en/posts/") }
+    ]
   });
 }
 
-function renderFullBlog(groups) {
-  const body = `${siteHeader()}
+function renderFullBlog(groups, lang) {
+  const body =
+    lang === "zh"
+      ? `${siteHeader("zh", "/en/blog/")}
 <main>
-  <h1>Complete Blog List</h1>
+  <h1>Blogs</h1>
   <p class="lead">这里是完整索引，包含学术文章、读书评论、文章评论和更私人化的判断。它不进入学术 RSS 与 sitemap。</p>
-  ${renderEntryList(groups, { showVisibility: true })}
+  ${renderEntryList(groups, { showVisibility: true, lang: "zh" })}
 </main>
-${siteFooter()}`;
+${siteFooter("zh")}`
+      : `${siteHeader("en", "/blog/")}
+<main>
+  <h1>Blogs</h1>
+  <p class="lead">The complete index, including research posts, reading notes, article comments, and more personal judgments. It is kept out of the research RSS and sitemap.</p>
+  ${renderEntryList(groups, { showVisibility: true, lang: "en" })}
+</main>
+${siteFooter("en")}`;
 
   return layout({
-    title: `Complete Blog - ${profile.site?.title || "Yukai Gu"}`,
+    title: `Blogs - ${profile.site?.title || "Yukai Gu"}`,
     description: "Complete blog list, including personal commentary.",
     body,
-    pathName: "/blog/",
-    lang: "zh",
-    noindex: true
+    pathName: lang === "zh" ? "/blog/" : "/en/blog/",
+    lang,
+    noindex: true,
+    alternates: [
+      { lang: "zh", href: absoluteUrl("/blog/") },
+      { lang: "en", href: absoluteUrl("/en/blog/") }
+    ]
   });
 }
 
 function renderPost(post, group) {
   const isAcademic = post.visibility === "academic";
   const bodyHtml = markdownToHtml(post.body);
-  const languageLinks = renderLanguageLinks(group, post);
+  const languageLinks = renderLanguageLinks(group, post, post.lang);
+  const alternatePost = group.posts.find((other) => other.lang === otherLang(post.lang));
+  const switchHref = alternatePost
+    ? postPath(alternatePost)
+    : post.lang === "zh"
+      ? "/en/blog/"
+      : "/blog/";
   const badge =
     post.translatedBy && post.translatedBy.toLowerCase().includes("llm")
       ? `<span class="badge">powered by llm</span>`
@@ -216,7 +340,7 @@ function renderPost(post, group) {
       ? `<p class="post-note">This translation was generated by an LLM and may receive later human edits.</p>`
       : "";
 
-  const body = `${siteHeader()}
+  const body = `${siteHeader(post.lang, switchHref)}
 <main>
   <article class="post">
     <header class="post-header">
@@ -230,7 +354,7 @@ function renderPost(post, group) {
     ${bodyHtml}
   </article>
 </main>
-${siteFooter()}`;
+${siteFooter(post.lang)}`;
 
   return layout({
     title: `${post.title} - ${profile.site?.title || "Yukai Gu"}`,
@@ -254,8 +378,9 @@ function renderEntryList(groups, options) {
   return `<ol class="entry-list">
 ${groups
   .map((group) => {
-    const post = pickPost(group);
-    const links = renderLanguageLinks(group, post);
+    const uiLang = options.lang || defaultLang;
+    const post = pickPost(group, uiLang);
+    const links = renderLanguageLinks(group, post, uiLang);
     const visibility = options.showVisibility
       ? ` · <span class="muted">${escapeHtml(post.visibility)}</span>`
       : "";
@@ -271,14 +396,15 @@ ${groups
 </ol>`;
 }
 
-function renderLanguageLinks(group, currentPost) {
+function renderLanguageLinks(group, currentPost, uiLang = currentPost.lang) {
   const links = group.posts
     .filter((post) => post.slug !== currentPost.slug)
     .map(
       (post) =>
-        `<a hreflang="${escapeAttr(post.lang)}" href="${escapeAttr(postPath(post))}">${escapeHtml(languageName(post.lang))}</a>`
+        `<a hreflang="${escapeAttr(post.lang)}" href="${escapeAttr(languageSwitchHref(postPath(post), post.lang))}">${escapeHtml(languageName(post.lang))}</a>`
     );
-  return links.length ? `Also in ${links.join(" / ")}` : "";
+  const prefix = uiLang === "zh" ? "另有" : "Also in";
+  return links.length ? `${prefix} ${links.join(" / ")}` : "";
 }
 
 function renderTags(tags) {
@@ -286,26 +412,91 @@ function renderTags(tags) {
   return ` <ul class="tag-list">${tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")}</ul>`;
 }
 
-function siteHeader() {
+function otherLang(lang) {
+  return lang === "zh" ? "en" : "zh";
+}
+
+function languageSwitchHref(href, targetLang) {
+  const joiner = href.includes("?") ? "&" : "?";
+  return `${href}${joiner}lang=${targetLang}`;
+}
+
+function renderLanguageSwitch(currentLang, href) {
+  const targetLang = otherLang(currentLang);
+  return `<a href="${escapeAttr(languageSwitchHref(href, targetLang))}" hreflang="${escapeAttr(targetLang)}">${escapeHtml(languageName(targetLang))}</a>`;
+}
+
+function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
   const person = profile.person || {};
+  const labels = homeLabels(lang);
+  const homeHref = lang === "zh" ? "/zh/" : "/";
   return `<header class="site-header">
-  <a class="brand" href="/">
+  <a class="brand" href="${homeHref}">
     <img src="/assets/gy-mark.svg" width="52" height="52" alt="">
     <span><strong>${escapeHtml(person.name || "Yukai Gu")}</strong><small>${escapeHtml(person.location || "")}</small></span>
   </a>
   <nav class="site-nav" aria-label="Primary">
-    <a href="/">Home</a>
-    <a href="/posts/">Academic notes</a>
+    <a href="${homeHref}">${escapeHtml(labels.home)}</a>
+    <a href="/blog/">${escapeHtml(labels.blogs)}</a>
     <a href="/feed.xml">RSS</a>
     <a href="https://github.com/${escapeAttr(person.github || "GYukai")}">GitHub</a>
+    ${renderLanguageSwitch(lang, switchHref)}
   </nav>
 </header>`;
 }
 
-function siteFooter() {
+function siteFooter(lang = "en") {
+  const text =
+    lang === "zh"
+      ? '学术写作会优先出现在主页。完整列表保存在 <a href="/blog/">/blog/</a>。'
+      : 'Academic writing is surfaced first. The complete list is kept at <a href="/blog/">/blog/</a>.';
   return `<footer class="site-footer">
-  <p>Academic writing is surfaced first. The complete list is kept at <a href="/blog/">/blog/</a>.</p>
+  <p>${text}</p>
 </footer>`;
+}
+
+function languageRedirectScript(currentLang, alternates) {
+  const targets = {};
+  for (const alternate of alternates) {
+    if (alternate.lang !== "zh" && alternate.lang !== "en") continue;
+    targets[alternate.lang] = pathFromUrl(alternate.href);
+  }
+
+  if (!targets.zh || !targets.en) return "";
+
+  return `<script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var explicit = params.get("lang");
+      if (explicit === "zh" || explicit === "en") return;
+
+      var first = "";
+      if (navigator.languages && navigator.languages.length) {
+        first = navigator.languages[0] || "";
+      } else {
+        first = navigator.language || "";
+      }
+
+      var preferred = first.toLowerCase().indexOf("zh") === 0 ? "zh" : "en";
+      var current = ${JSON.stringify(currentLang)};
+      var targets = ${JSON.stringify(targets)};
+      var targetPath = targets[preferred];
+      if (!targetPath || preferred === current || targetPath === window.location.pathname) return;
+
+      var next = new URL(targetPath, window.location.origin);
+      next.search = window.location.search;
+      next.hash = window.location.hash;
+      window.location.replace(next.pathname + next.search + next.hash);
+    }());
+  </script>`;
+}
+
+function pathFromUrl(href) {
+  try {
+    return new URL(href).pathname;
+  } catch {
+    return href;
+  }
 }
 
 function layout({ title, description, body, pathName, lang, noindex = false, alternates = [] }) {
@@ -321,13 +512,14 @@ function layout({ title, description, body, pathName, lang, noindex = false, alt
   ${noindex ? '<meta name="robots" content="noindex,nofollow">' : ""}
   <link rel="canonical" href="${escapeAttr(canonical)}">
   <link rel="stylesheet" href="/assets/site.css">
-  <link rel="alternate" type="application/rss+xml" title="Academic feed" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="Research feed" href="/feed.xml">
   ${alternates
     .map(
       (alternate) =>
         `<link rel="alternate" hreflang="${escapeAttr(alternate.lang)}" href="${escapeAttr(alternate.href)}">`
     )
     .join("\n  ")}
+  ${languageRedirectScript(lang, alternates)}
   <script>
     window.MathJax = {
       tex: {
@@ -351,7 +543,7 @@ function renderFeed(groups) {
   return `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>${escapeXml(profile.site?.title || "Yukai Gu")} - Academic Notes</title>
+    <title>${escapeXml(profile.site?.title || "Yukai Gu")} - Research Feed</title>
     <link>${escapeXml(siteUrl)}</link>
     <description>${escapeXml(profile.site?.description || "")}</description>
     ${entries
@@ -373,7 +565,7 @@ function renderFeed(groups) {
 
 function renderSitemap(groups) {
   const academicPosts = groups.flatMap((group) => group.posts);
-  const paths = ["/", "/posts/", ...academicPosts.map(postPath)];
+  const paths = ["/", "/zh/", "/posts/", "/en/posts/", ...academicPosts.map(postPath)];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${paths
@@ -390,6 +582,7 @@ ${paths
 function renderRobots() {
   return `User-agent: *
 Disallow: /blog/
+Disallow: /en/blog/
 Allow: /
 Sitemap: ${siteUrl}/sitemap.xml
 `;

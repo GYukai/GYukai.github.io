@@ -7,41 +7,109 @@
   },
   "person": {
     "name": "Yukai Gu",
-    "nameZh": "顾雨凯",
+    "nameZh": "顾俞凯",
     "github": "GYukai",
-    "email": "",
-    "location": "Shanghai / Remote"
+    "email": "yukai.gu@outlook.com",
+    "location": "PhD Student @ Renmin University of China"
   },
-  "intro": {
-    "zh": [
-      "我关心机器学习系统如何从经验中形成可复用的知识，也关心研究文章在读者脑中真正发生作用的方式。",
-      "这个站点会保持接近裸 HTML：可读、可复制、可被搜索引擎和浏览器长期理解。公式、代码、引用和双语版本是第一等内容，而不是被框架包起来的装饰。"
-    ],
-    "en": [
-      "I am interested in how learning systems turn experience into reusable knowledge, and in how research writing can actually change the reader's working model.",
-      "This site stays close to plain HTML: readable, copyable, and durable. Equations, code, references, and bilingual versions are first-class material rather than decoration around a framework."
-    ]
-  },
-  "research": [
-    {
-      "period": "Now",
-      "title": "Learning from experience",
-      "org": "Independent notes",
-      "description": "Notes around reinforcement learning, continual learning, evaluation, and the gap between elegant algorithms and systems that keep working.",
-      "tags": ["RL", "continual learning", "evaluation"]
+  "home": {
+    "en": {
+      "description": "A small academic homepage and bilingual research notebook.",
+      "intro": [
+        "I am a PhD student at the Gaoling School of Artificial Intelligence, Renmin University of China. My recent work is around multimodal models, evaluation, inference-time optimization, and research tooling.",
+        "Before RUC, I studied computer science at Beijing Jiaotong University and worked on multimodal hallucination evaluation, deep video compression, and open-source productivity tools."
+      ],
+      "research": [
+        {
+          "period": "2024 - present",
+          "title": "Inference-time optimization for multimodal models",
+          "org": "AIBOX Lab, Renmin University of China",
+          "description": "Research on using reasoning ability in multimodal tasks and improving test-time behavior of large models.",
+          "tags": ["multimodal models", "reasoning", "optimization"]
+        },
+        {
+          "period": "2023 - 2024",
+          "title": "Human-machine friendly deep video compression",
+          "org": "Beijing Jiaotong University",
+          "description": "Work on deep-model-based video compression and perceptual reconstruction. Related preprint: arXiv:2405.14336.",
+          "tags": ["video compression", "deep learning"]
+        },
+        {
+          "period": "2023",
+          "title": "Hallucination evaluation for multimodal large models",
+          "org": "ADaM Lab",
+          "description": "Built evaluation code and data for LLM-free multimodal hallucination assessment. Related preprint: arXiv:2311.07397.",
+          "tags": ["evaluation", "multimodal LLMs"]
+        },
+        {
+          "period": "Open source",
+          "title": "Waypoint",
+          "org": "GitHub",
+          "description": "Contributed features to an open-source software plugin project.",
+          "tags": ["open source"]
+        }
+      ],
+      "rules": [
+        "Write pages that survive without a client-side application.",
+        "Keep equations close to the prose, for example $V^\\pi(s)=\\mathbb{E}_\\pi[G_t\\mid S_t=s]$.",
+        "Separate research posts from personal commentary by metadata, not by memory.",
+        "Prefer durable links, dates, and source Markdown over clever presentation."
+      ]
     },
-    {
-      "period": "Ongoing",
-      "title": "Research reading as infrastructure",
-      "org": "Personal workflow",
-      "description": "A lightweight pipeline for turning reading, criticism, experiments, and translations into public academic notes.",
-      "tags": ["writing", "translation", "tools"]
+    "zh": {
+      "description": "顾俞凯的个人主页和研究博客。",
+      "intro": [
+        "我是中国人民大学高瓴人工智能学院博士生，近期关注多模态模型、评测、推理阶段优化和研究工具。",
+        "此前在北京交通大学学习计算机科学，参与过多模态幻觉评测、深度视频压缩和开源工具相关工作。"
+      ],
+      "research": [
+        {
+          "period": "2024 - 至今",
+          "title": "多模态模型推理阶段的性能优化方法研究",
+          "org": "中国人民大学 AIBOX 实验室",
+          "description": "围绕多模态任务中的模型推理能力和测试时行为优化开展研究。",
+          "tags": ["多模态模型", "推理", "优化"]
+        },
+        {
+          "period": "2023 - 2024",
+          "title": "人机共友好的深度视频压缩",
+          "org": "北京交通大学",
+          "description": "参与深度模型视频压缩和感知重建相关研究。相关预印本：arXiv:2405.14336。",
+          "tags": ["视频压缩", "深度学习"]
+        },
+        {
+          "period": "2023",
+          "title": "多模态大模型的幻觉测定",
+          "org": "ADaM 实验室",
+          "description": "参与 LLM-free 多模态幻觉评测的数据和代码构建。相关预印本：arXiv:2311.07397。",
+          "tags": ["评测", "多模态大模型"]
+        },
+        {
+          "period": "开源",
+          "title": "Waypoint",
+          "org": "GitHub",
+          "description": "为开源软件插件项目贡献功能代码。",
+          "tags": ["开源"]
+        }
+      ],
+      "rules": [
+        "保持页面简洁、可读、可长期访问。",
+        "用博客记录研究问题、论文阅读和实验判断。"
+      ]
     }
-  ],
+  },
   "links": [
+    {
+      "label": "Email",
+      "url": "mailto:yukai.gu@outlook.com"
+    },
     {
       "label": "GitHub",
       "url": "https://github.com/GYukai"
+    },
+    {
+      "label": "Google Scholar",
+      "url": "https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&hl=en&oi=ao"
     }
   ]
 }

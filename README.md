@@ -4,7 +4,9 @@
 
 ## 设计
 
-- `content/profile.json` 管主页介绍、研究经历和外链。
+- `content/profile.json` 管主页介绍、基本经历和外链；英文主页在 `/`，中文主页在 `/zh/`。
+- 导航里的 `Blogs` 指向 `/blog/` 完整博客列表；`/posts/` 仍保留为学术文章归档和 RSS/sitemap 来源。
+- 有中英文对应页时，页面会按浏览器首选语言自动跳转；语言切换只显示另一种语言的链接。
 - `content/posts/*.md` 是文章源文件。
 - `visibility: academic` 会进入主页、`/posts/`、RSS 和 sitemap。
 - `visibility: personal` 只进入 `/blog/` 完整索引，并带 `noindex`；这不是强权限，只是静态站可提供的发布分层。

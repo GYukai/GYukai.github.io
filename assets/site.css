@@ -16,7 +16,6 @@
 
 html {
   font-family: Georgia, "Times New Roman", "Songti SC", serif;
-  font-size: 18px;
   letter-spacing: 0;
   background: var(--paper);
   color: var(--text);
@@ -77,6 +76,11 @@ img {
 .meta,
 .post-note {
   color: var(--muted);
+}
+
+.placeholder {
+  color: var(--muted);
+  font-style: italic;
 }
 
 .site-nav {
@@ -178,12 +182,6 @@ th {
   font-size: 1.06rem;
 }
 
-.two-lang {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-
 .entry-list {
   list-style: none;
   padding: 0;
@@ -257,8 +255,7 @@ summary {
     padding: 22px 16px 42px;
   }
 
-  .site-header,
-  .two-lang {
+  .site-header {
     display: block;
   }
 
