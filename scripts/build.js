@@ -189,7 +189,7 @@ function renderHome(groups, lang) {
     </div>
     <figure class="profile-photo">
       <img src="${escapeAttr(photoUrl)}" width="192" height="192" alt="${escapeAttr(person.name || "Gu Yukai")}">
-      <figcaption>${escapeHtml(photoCaption)}</figcaption>
+      <figcaption>${renderLineBreaks(photoCaption)}</figcaption>
     </figure>
   </section>
 
@@ -359,6 +359,10 @@ function renderLanguageLinks(group, currentPost, uiLang = currentPost.lang) {
 function renderTags(tags) {
   if (!tags.length) return "";
   return ` <ul class="tag-list">${tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")}</ul>`;
+}
+
+function renderLineBreaks(text) {
+  return escapeHtml(text).replace(/\n/g, "<br>");
 }
 
 function otherLang(lang) {
