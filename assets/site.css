@@ -91,18 +91,14 @@ img {
   font-size: 0.92rem;
 }
 
-.icon-link,
+.mail-link,
 .scholar-link {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
 }
 
-.icon-link {
-  line-height: 1;
-}
-
-.icon-link svg,
+.mail-link svg,
 .scholar-link svg {
   flex: 0 0 auto;
 }

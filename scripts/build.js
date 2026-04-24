@@ -455,7 +455,7 @@ function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
   <nav class="site-nav" aria-label="Primary">
     <a href="/blog/">${escapeHtml(labels.blogs)}</a>
     <a href="/feed.xml">RSS</a>
-    <a class="icon-link" href="mailto:${escapeAttr(email)}" aria-label="${escapeAttr(email)}">${renderMailIcon()}</a>
+    <a class="mail-link" href="mailto:${escapeAttr(email)}">${renderMailIcon()}<span>${escapeHtml(email)}</span></a>
     <a class="scholar-link" href="${escapeAttr(scholar)}" aria-label="Google Scholar: Gu Yukai">${renderScholarIcon()}<span>Gu Yukai</span></a>
     <span class="nav-divider" aria-hidden="true">|</span>
     ${renderHeaderLanguageLink(lang, switchHref)}
