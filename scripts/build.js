@@ -174,7 +174,7 @@ function renderHome(groups, lang) {
       : profile.site?.description || "";
   const heading =
     lang === "zh"
-      ? `${person.nameZh || person.name || "Gu Yukai"}${person.name ? ` / ${person.name}` : ""}`
+      ? person.nameZh || person.name || "Gu Yukai"
       : person.name || "Gu Yukai";
 
   const body = `${siteHeader(lang, lang === "zh" ? "/" : "/zh/")}
@@ -331,7 +331,6 @@ ${groups
   .map((group) => {
     const uiLang = options.lang || defaultLang;
     const post = pickPost(group, uiLang);
-    const links = renderLanguageLinks(group, post, uiLang);
     const visibility = options.showVisibility
       ? ` · <span class="muted">${escapeHtml(post.visibility)}</span>`
       : "";
@@ -339,7 +338,6 @@ ${groups
     return `<li>
   <time datetime="${escapeAttr(post.date)}">${formatDate(post.date, post.lang)}</time>${visibility}<br>
   <a class="entry-title" href="${escapeAttr(postPath(post))}">${escapeHtml(post.title)}</a>
-  ${links ? `<div class="language-links">${links}</div>` : ""}
   ${summary ? `<p>${escapeHtml(summary)}</p>` : ""}
 </li>`;
   })
@@ -405,7 +403,6 @@ function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
   const scholar = person.scholar || "https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&hl=en&oi=ao";
   return `<header class="site-header">
   <a class="brand" href="${homeHref}">
-    <img src="/assets/gy-mark.svg" width="52" height="52" alt="">
     <span><strong>${escapeHtml(person.name || "Gu Yukai")}</strong><small>${escapeHtml(person.location || "")}</small></span>
   </a>
   <nav class="site-nav" aria-label="Primary">

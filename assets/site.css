@@ -60,12 +60,6 @@ img {
   text-decoration: none;
 }
 
-.brand img {
-  width: 52px;
-  height: 52px;
-  flex: 0 0 52px;
-}
-
 .brand strong {
   display: block;
   font-size: 1.1rem;
@@ -148,6 +142,7 @@ img {
   margin-top: 0.55rem;
   color: var(--muted);
   font-size: 0.9rem;
+  text-align: center;
 }
 
 h1,
