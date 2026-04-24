@@ -139,8 +139,7 @@ function homeLabels(lang) {
       notes: "说明",
       blogs: "博客",
       allBlogs: "全部博客",
-      smallRules: "小规则",
-      links: "链接"
+      smallRules: "小规则"
     };
   }
 
@@ -153,8 +152,7 @@ function homeLabels(lang) {
     notes: "Notes",
     blogs: "Blogs",
     allBlogs: "All blogs",
-    smallRules: "Small Rules",
-    links: "Links"
+    smallRules: "Small Rules"
   };
 }
 
@@ -194,7 +192,6 @@ function renderHome(groups, lang) {
   const home = homeContent(lang);
   const labels = homeLabels(lang);
   const research = home.research || [];
-  const links = profile.links || [];
   const latest = groups.slice(0, 6);
   const homePath = lang === "zh" ? "/zh/" : "/";
   const description =
@@ -240,11 +237,6 @@ function renderHome(groups, lang) {
   <ol>
     ${home.rules.map((rule) => `<li>${renderInline(rule)}</li>`).join("\n    ")}
   </ol>
-
-  <h2>${escapeHtml(labels.links)}</h2>
-  <ul>
-    ${links.map((link) => `<li><a href="${escapeAttr(link.url)}">${escapeHtml(link.label)}</a></li>`).join("\n")}
-  </ul>
 </main>
 ${siteFooter(lang)}`;
 
@@ -427,6 +419,13 @@ function renderLanguageSwitch(currentLang, href) {
   return `<a href="${escapeAttr(languageSwitchHref(href, targetLang))}" hreflang="${escapeAttr(targetLang)}">${escapeHtml(languageName(targetLang))}</a>`;
 }
 
+function renderHeaderLinks() {
+  const links = Array.isArray(profile.links) ? profile.links : [];
+  return links
+    .map((link) => `<a href="${escapeAttr(link.url)}">${escapeHtml(link.label)}</a>`)
+    .join("\n    ");
+}
+
 function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
   const person = profile.person || {};
   const labels = homeLabels(lang);
@@ -440,7 +439,7 @@ function siteHeader(lang = "en", switchHref = lang === "zh" ? "/" : "/zh/") {
     <a href="${homeHref}">${escapeHtml(labels.home)}</a>
     <a href="/blog/">${escapeHtml(labels.blogs)}</a>
     <a href="/feed.xml">RSS</a>
-    <a href="https://github.com/${escapeAttr(person.github || "GYukai")}">GitHub</a>
+    ${renderHeaderLinks()}
     ${renderLanguageSwitch(lang, switchHref)}
   </nav>
 </header>`;
