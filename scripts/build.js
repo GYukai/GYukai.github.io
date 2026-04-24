@@ -19,6 +19,7 @@ const defaultLang = String(profile.site?.defaultLang || "zh");
 await fs.rm(outDir, { recursive: true, force: true });
 await fs.mkdir(outDir, { recursive: true });
 await copyDir(assetsDir, path.join(outDir, "assets"));
+await fs.copyFile(path.join(assetsDir, "favicon.svg"), path.join(outDir, "favicon.svg"));
 await writeFile(".nojekyll", "\n");
 
 const posts = (await readPosts(contentRoot))
@@ -511,6 +512,7 @@ function layout({ title, description, body, pathName, lang, noindex = false, alt
   <meta name="description" content="${escapeAttr(description)}">
   ${noindex ? '<meta name="robots" content="noindex,nofollow">' : ""}
   <link rel="canonical" href="${escapeAttr(canonical)}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/site.css">
   <link rel="alternate" type="application/rss+xml" title="Research feed" href="/feed.xml">
   ${alternates
