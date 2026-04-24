@@ -328,27 +328,18 @@ summary {
   }
 
   .home-hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) 124px;
     gap: 18px;
   }
 
   .profile-photo {
-    display: grid;
-    grid-template-columns: 112px 1fr;
-    gap: 14px;
-    align-items: end;
-    border-left: 0;
-    border-top: 1px solid var(--rule);
-    padding: 16px 0 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 12px;
   }
 
   .profile-photo img {
     width: 112px;
     height: 112px;
-  }
-
-  .profile-photo figcaption {
-    margin: 0;
   }
 
   h1 {
