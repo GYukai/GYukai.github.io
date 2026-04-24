@@ -163,6 +163,11 @@ function renderHome(groups, lang) {
   const photoUrl =
     person.photo ||
     "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=Ml8K5b8AAAAJ&citpid=4";
+  const photoCaption =
+    person.photoCaption?.[lang] ||
+    person.photoCaption?.en ||
+    person.name ||
+    "Gu Yukai";
   const description =
     home.description && !isPlaceholder(home.description)
       ? home.description
@@ -184,7 +189,7 @@ function renderHome(groups, lang) {
     </div>
     <figure class="profile-photo">
       <img src="${escapeAttr(photoUrl)}" width="192" height="192" alt="${escapeAttr(person.name || "Gu Yukai")}">
-      <figcaption>${escapeHtml(person.name || "Gu Yukai")}</figcaption>
+      <figcaption>${escapeHtml(photoCaption)}</figcaption>
     </figure>
   </section>
 

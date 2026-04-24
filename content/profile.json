@@ -12,6 +12,10 @@
     "email": "yukai.gu@outlook.com",
     "location": "PhD Student @ Renmin University of China",
     "photo": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=Ml8K5b8AAAAJ&citpid=4",
+    "photoCaption": {
+      "zh": "我在北京西方某处",
+      "en": "Somewhere west of Beijing"
+    },
     "scholar": "https://scholar.google.com/citations?user=Ml8K5b8AAAAJ&hl=en&oi=ao"
   },
   "home": {
